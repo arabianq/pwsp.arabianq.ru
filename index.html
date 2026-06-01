@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PipeWire Soundpad (PWSP) — Modern Linux Soundboard</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="PipeWire Soundpad (PWSP) — Modern Linux Soundboard">
+    <meta name="description" content="Simple, fast, and powerful soundboard for Linux powered by PipeWire. Route audio directly into your virtual microphone (Discord, Zoom, TeamSpeak). Written in Rust.">
+    <meta name="keywords" content="pipewire-soundpad, soundboard linux, soundboard, pipewire soundboard, rust soundboard, pwsp, discord soundboard linux">
+    <meta name="author" content="arabianq">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pwsp.arabianq.ru/">
+    <meta property="og:title" content="PipeWire Soundpad (PWSP) — Modern Linux Soundboard">
+    <meta property="og:description" content="Simple, fast, and powerful soundboard for Linux powered by PipeWire. Route audio directly into your virtual microphone.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/arabianq/pipewire-soundpad/main/assets/screenshot.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pwsp.arabianq.ru/">
+    <meta property="twitter:title" content="PipeWire Soundpad (PWSP) — Modern Linux Soundboard">
+    <meta property="twitter:description" content="Simple, fast, and powerful soundboard for Linux powered by PipeWire. Route audio directly into your virtual microphone.">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/arabianq/pipewire-soundpad/main/assets/screenshot.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/icon.png">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar" id="main-header">
+        <div class="container navbar-container">
+            <a href="#" class="logo">
+                <img src="assets/icon.png" alt="PWSP Logo" class="logo-img">
+                <span class="logo-text">PWSP</span>
+            </a>
+            <nav class="nav-menu" id="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
+                <a href="#installation" class="nav-link">Installation</a>
+                <a href="#downloads" class="nav-link">Downloads</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="https://github.com/arabianq/pipewire-soundpad" target="_blank" rel="noopener" class="btn btn-secondary btn-icon" id="github-nav-link">
+                    <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+                <button class="mobile-toggle" id="mobile-menu-btn" aria-label="Open menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-glow"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="badge-wrapper">
+                    <span class="badge" id="latest-version-badge">Loading version...</span>
+                </div>
+                <h1 class="hero-title">🎵 PipeWire Soundpad</h1>
+                <p class="hero-subtitle">A simple, modern, and powerful soundboard for Linux, written in Rust. Route audio effects directly to your virtual microphone for Discord, Zoom, or TeamSpeak with ease.</p>
+                <div class="hero-actions">
+                    <a href="#installation" class="btn btn-primary" id="hero-install-btn">Install Now</a>
+                    <a href="#downloads" class="btn btn-outline" id="hero-download-btn">Get Files</a>
+                </div>
+            </div>
+            <div class="hero-media">
+                <div class="screenshot-wrapper">
+                    <img src="assets/screenshot.png" alt="PipeWire Soundpad screenshot" class="screenshot-img">
+                    <div class="screenshot-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Built for PipeWire & Linux</h2>
+                <p class="section-subtitle">PWSP leverages modern PipeWire features to achieve flawless, low-latency audio routing.</p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">🎙️</div>
+                    <h3 class="feature-title">Virtual Microphone</h3>
+                    <p class="feature-text">Seamlessly mixes your physical microphone input with soundboard effects by managing PipeWire virtual devices automatically. Your voice and sounds combine perfectly.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <h3 class="feature-title">Multi-Format Support</h3>
+                    <p class="feature-text">Plays a wide variety of audio file types out of the box, including <code>mp3</code>, <code>wav</code>, <code>ogg</code>, <code>flac</code>, <code>mp4</code>, <code>aac</code>, and more.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Global Hotkeys</h3>
+                    <p class="feature-text">Bind custom key shortcuts to play sounds instantly from anywhere, even while full-screen gaming or when the application is minimized.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">📂</div>
+                    <h3 class="feature-title">Smart Library</h3>
+                    <p class="feature-text">Organize sounds with drag-and-drop folders, quick search filtering, and collapsible tracks to keep collections clean.</p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon">🎛️</div>
+                    <h3 class="feature-title">Track Controls</h3>
+                    <p class="feature-text">Control individual volume levels, scrub tracks to specific playback positions, and trigger multiple sounds concurrently.</p>
+                </div>
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3 class="feature-title">Plug & Play</h3>
+                    <p class="feature-text">Automatically detects new audio input devices and dynamic disconnections, linking virtual devices on the fly without restarts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture-section" id="architecture">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Client-Server Architecture</h2>
+                <p class="section-subtitle">PWSP is split into distinct components to guarantee high stability, performance, and easy scripting.</p>
+            </div>
+            
+            <div class="architecture-grid">
+                <div class="arch-visual">
+                    <div class="arch-node-container">
+                        <!-- Daemon Node -->
+                        <div class="arch-node daemon-node">
+                            <div class="node-icon">⚙️</div>
+                            <div class="node-content">
+                                <h4>pwsp-daemon</h4>
+                                <p>Background service. Manages PipeWire links, loads audio files, and handles routing.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Socket Connector Line -->
+                        <div class="arch-connector">
+                            <span class="connector-line"></span>
+                            <span class="connector-label">Unix Socket</span>
+                        </div>
+                        
+                        <!-- Clients Group -->
+                        <div class="arch-clients">
+                            <div class="arch-node gui-node">
+                                <div class="node-icon">🖥️</div>
+                                <div class="node-content">
+                                    <h4>pwsp-gui</h4>
+                                    <p>Lightweight graphical user interface built with Rust and egui.</p>
+                                </div>
+                            </div>
+                            <div class="arch-node cli-node">
+                                <div class="node-icon">🐚</div>
+                                <div class="node-content">
+                                    <h4>pwsp-cli</h4>
+                                    <p>Command-line interface for scripts, integrations, and custom hotkeys.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arch-details">
+                    <div class="arch-detail-card">
+                        <h3>Why does it matter?</h3>
+                        <ul>
+                            <li>
+                                <strong>Stability:</strong> If you close the GUI app or it crashes, the background daemon continues running. Your audio routing remains intact.
+                            </li>
+                            <li>
+                                <strong>Automation:</strong> With the <code>pwsp-cli</code> tool, you can easily script sound playback or set up global hotkeys through your window manager (e.g., i3, Sway, Hyprland).
+                            </li>
+                            <li>
+                                <strong>Minimal Footprint:</strong> Written entirely in Rust, the daemon has a microscopic CPU and RAM footprint, staying completely silent until triggered.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="installation-section" id="installation">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Quick Installation</h2>
+                <p class="section-subtitle">Choose the preferred installation method for your Linux distribution.</p>
+            </div>
+            
+            <div class="install-container">
+                <!-- Tab Headers -->
+                <div class="tab-headers" role="tablist" id="install-tabs">
+                    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="flatpak-panel" id="tab-flatpak">📦 Flatpak</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="arch-panel" id="tab-arch">🏔️ Arch Linux</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="fedora-panel" id="tab-fedora">🌀 Fedora</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="debian-panel" id="tab-debian">🐧 Ubuntu / Debian</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="source-panel" id="tab-source">🛠️ Source Code</button>
+                </div>
+                
+                <!-- Tab Panels -->
+                <div class="tab-panels">
+                    
+                    <!-- Flatpak Panel -->
+                    <div class="tab-panel active" id="flatpak-panel" role="tabpanel" aria-labelledby="tab-flatpak">
+                        <p class="panel-desc">Recommended installation method. The easiest of the universal installation options.</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="copy-btn" data-clipboard-target="#code-flatpak" aria-label="Copy command">
+                                    <svg viewBox="0 0 24 24" class="copy-svg"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre><code id="code-flatpak"># Add the PWSP Flatpak repository
+flatpak remote-add --user --if-not-exists pwsp-repo https://arabianq.github.io/pipewire-soundpad/index.flatpakrepo
+
+# Install the stable version
+flatpak install --user arabianq-repo ru.arabianq.pwsp//stable
+
+# Enable and start the daemon (critical for audio routing)
+systemctl --user enable --now pwsp-daemon</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Arch Linux Panel -->
+                    <div class="tab-panel" id="arch-panel" role="tabpanel" aria-labelledby="tab-arch">
+                        <p class="panel-desc">Available in the Arch User Repository (AUR). You can build it from source or download the pre-compiled binary package.</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="copy-btn" data-clipboard-target="#code-arch" aria-label="Copy command">
+                                    <svg viewBox="0 0 24 24" class="copy-svg"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre><code id="code-arch"># Install via an AUR helper like paru (or yay)
+paru -S pwsp
+
+# Or install the pre-compiled binary package (faster)
+paru -S pwsp-bin
+
+# Enable and start the background daemon
+systemctl --user enable --now pwsp-daemon</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Fedora Panel -->
+                    <div class="tab-panel" id="fedora-panel" role="tabpanel" aria-labelledby="tab-fedora">
+                        <p class="panel-desc">Available for Fedora users via a custom Copr repository.</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="copy-btn" data-clipboard-target="#code-fedora" aria-label="Copy command">
+                                    <svg viewBox="0 0 24 24" class="copy-svg"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre><code id="code-fedora"># Enable the PWSP Copr repository
+sudo dnf copr enable arabianq/pwsp
+
+# Install the package
+sudo dnf install pwsp
+
+# Enable and start the background daemon
+systemctl --user enable --now pwsp-daemon</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Ubuntu/Debian Panel -->
+                    <div class="tab-panel" id="debian-panel" role="tabpanel" aria-labelledby="tab-debian">
+                        <p class="panel-desc">Download the pre-built <code>.deb</code> package for Ubuntu, Debian, or Linux Mint from the downloads section below.</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="copy-btn" data-clipboard-target="#code-debian" aria-label="Copy command">
+                                    <svg viewBox="0 0 24 24" class="copy-svg"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre><code id="code-debian"># Install the downloaded .deb file
+sudo apt install ./pwsp_*.deb
+
+# Enable and start the background daemon
+systemctl --user enable --now pwsp-daemon</code></pre>
+                        </div>
+                    </div>
+                    
+                    <!-- Source Panel -->
+                    <div class="tab-panel" id="source-panel" role="tabpanel" aria-labelledby="tab-source">
+                        <p class="panel-desc">Compile the application directly from source using the Rust toolchain.</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="copy-btn" data-clipboard-target="#code-source" aria-label="Copy command">
+                                    <svg viewBox="0 0 24 24" class="copy-svg"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                    <span>Copy</span>
+                                </button>
+                            </div>
+                            <pre><code id="code-source"># Clone the repository
+git clone https://github.com/arabianq/pipewire-soundpad.git
+cd pipewire-soundpad
+
+# Build the release binaries
+cargo build --release
+
+# Run the background audio engine
+cargo run --release --bin pwsp-daemon &
+
+# Start the graphical user interface
+cargo run --release --bin pwsp-gui</code></pre>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Downloads Section -->
+    <section class="downloads-section" id="downloads">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Direct File Downloads</h2>
+                <p class="section-subtitle">Get pre-compiled binaries and source files directly from the latest GitHub release.</p>
+            </div>
+            
+            <div class="downloads-box">
+                <div class="version-info-row">
+                    <div class="version-label">
+                        <span class="v-tag" id="downloads-v-tag">vX.Y.Z</span>
+                        <span class="v-date" id="downloads-v-date">release date unknown</span>
+                    </div>
+                    <a href="https://github.com/arabianq/pipewire-soundpad/releases" target="_blank" rel="noopener" class="all-releases-link">All GitHub Releases →</a>
+                </div>
+                
+                <div class="downloads-grid" id="downloads-container">
+                    <!-- Loading Shimmer/State -->
+                    <div class="download-card shimmer"></div>
+                    <div class="download-card shimmer"></div>
+                    <div class="download-card shimmer"></div>
+                    <div class="download-card shimmer"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-left">
+                <p>&copy; 2026 PipeWire Soundpad. Created by <a href="https://github.com/arabianq" target="_blank" rel="noopener" class="author-link">arabianq</a>.</p>
+                <p class="license">Released under the MIT License.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://github.com/arabianq/pipewire-soundpad" target="_blank" rel="noopener" class="footer-link">GitHub Repository</a>
+                <span class="footer-separator">•</span>
+                <a href="https://github.com/arabianq/pipewire-soundpad/issues" target="_blank" rel="noopener" class="footer-link">Report an Issue</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
