@@ -145,7 +145,7 @@ function initCopyButtons() {
  */
 async function fetchLatestRelease() {
     const repoUrl = 'https://api.github.com/repos/arabianq/pipewire-soundpad/releases/latest';
-    const fallbackVersion = 'v1.9.1';
+    const fallbackVersion = 'v1.12.0';
     
     const badgeEl = document.getElementById('latest-version-badge');
     const downloadVTag = document.getElementById('downloads-v-tag');
@@ -178,29 +178,39 @@ async function fetchLatestRelease() {
         }
         
         // Process release assets
-        let debAsset = null;
-        let zipAsset = null;
+        let debAssetX64 = null;
+        let debAssetArm64 = null;
+        let zipAssetX64 = null;
+        let zipAssetArm64 = null;
         
         data.assets.forEach(asset => {
             if (asset.name.endsWith('.deb')) {
-                debAsset = asset;
+                if (asset.name.includes('arm64')) {
+                    debAssetArm64 = asset;
+                } else {
+                    debAssetX64 = asset;
+                }
             } else if (asset.name.endsWith('.zip') && !asset.name.includes('source')) {
                 // Ignore general source zips, lookup for built binary
-                zipAsset = asset;
+                if (asset.name.includes('arm64')) {
+                    zipAssetArm64 = asset;
+                } else {
+                    zipAssetX64 = asset;
+                }
             }
         });
         
         // Build downloads array
         const downloads = [];
         
-        if (debAsset) {
-            const sizeMB = (debAsset.size / (1024 * 1024)).toFixed(1);
+        if (debAssetX64) {
+            const sizeMB = (debAssetX64.size / (1024 * 1024)).toFixed(1);
             downloads.push({
                 icon: '🐧',
                 name: 'Debian / Ubuntu Package',
                 format: 'DEB (64-bit)',
-                url: debAsset.browser_download_url,
-                info: `Size: ~${sizeMB} MB • Downloads: ${debAsset.download_count}`
+                url: debAssetX64.browser_download_url,
+                info: `Size: ~${sizeMB} MB • Downloads: ${debAssetX64.download_count}`
             });
         } else {
             // Fallback deb if not in assets but we expect it
@@ -208,19 +218,38 @@ async function fetchLatestRelease() {
                 icon: '🐧',
                 name: 'Debian / Ubuntu Package',
                 format: 'DEB (64-bit)',
-                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp_${version.replace('v', '')}-1_amd64.deb`,
-                info: `For Debian-based systems`
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp-gui_${version.replace('v', '')}-1_amd64.deb`,
+                info: `For Intel/AMD 64-bit systems`
+            });
+        }
+
+        if (debAssetArm64) {
+            const sizeMB = (debAssetArm64.size / (1024 * 1024)).toFixed(1);
+            downloads.push({
+                icon: '🐧',
+                name: 'Debian / Ubuntu Package (ARM)',
+                format: 'DEB (ARM64)',
+                url: debAssetArm64.browser_download_url,
+                info: `Size: ~${sizeMB} MB • Downloads: ${debAssetArm64.download_count}`
+            });
+        } else {
+            downloads.push({
+                icon: '🐧',
+                name: 'Debian / Ubuntu Package (ARM)',
+                format: 'DEB (ARM64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp-gui_${version.replace('v', '')}-1_arm64.deb`,
+                info: `For ARM 64-bit systems`
             });
         }
         
-        if (zipAsset) {
-            const sizeMB = (zipAsset.size / (1024 * 1024)).toFixed(1);
+        if (zipAssetX64) {
+            const sizeMB = (zipAssetX64.size / (1024 * 1024)).toFixed(1);
             downloads.push({
                 icon: '📦',
                 name: 'Standalone Binaries',
                 format: 'ZIP (64-bit)',
-                url: zipAsset.browser_download_url,
-                info: `Size: ~${sizeMB} MB • Downloads: ${zipAsset.download_count}`
+                url: zipAssetX64.browser_download_url,
+                info: `Size: ~${sizeMB} MB • Downloads: ${zipAssetX64.download_count}`
             });
         } else {
             downloads.push({
@@ -228,7 +257,26 @@ async function fetchLatestRelease() {
                 name: 'Standalone Binaries',
                 format: 'ZIP (64-bit)',
                 url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp-${version}-linux-x64.zip`,
-                info: `Pre-compiled binaries`
+                info: `Pre-compiled x64 binaries`
+            });
+        }
+
+        if (zipAssetArm64) {
+            const sizeMB = (zipAssetArm64.size / (1024 * 1024)).toFixed(1);
+            downloads.push({
+                icon: '📦',
+                name: 'Standalone Binaries (ARM)',
+                format: 'ZIP (ARM64)',
+                url: zipAssetArm64.browser_download_url,
+                info: `Size: ~${sizeMB} MB • Downloads: ${zipAssetArm64.download_count}`
+            });
+        } else {
+            downloads.push({
+                icon: '📦',
+                name: 'Standalone Binaries (ARM)',
+                format: 'ZIP (ARM64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp-${version}-linux-arm64.zip`,
+                info: `Pre-compiled ARM64 binaries`
             });
         }
         
@@ -271,8 +319,15 @@ async function fetchLatestRelease() {
                 icon: '🐧',
                 name: 'Debian / Ubuntu Package',
                 format: 'DEB (64-bit)',
-                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp_${fallbackVersion.replace('v', '')}-1_amd64.deb`,
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp-gui_${fallbackVersion.replace('v', '')}-1_amd64.deb`,
                 info: 'Install on Ubuntu/Debian/Mint'
+            },
+            {
+                icon: '🐧',
+                name: 'Debian / Ubuntu Package (ARM)',
+                format: 'DEB (ARM64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp-gui_${fallbackVersion.replace('v', '')}-1_arm64.deb`,
+                info: 'Install on ARM-based Ubuntu/Debian'
             },
             {
                 icon: '📦',
@@ -280,6 +335,13 @@ async function fetchLatestRelease() {
                 format: 'ZIP (64-bit)',
                 url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp-${fallbackVersion}-linux-x64.zip`,
                 info: 'For other Linux distributions'
+            },
+            {
+                icon: '📦',
+                name: 'Standalone Binaries (ARM)',
+                format: 'ZIP (ARM64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp-${fallbackVersion}-linux-arm64.zip`,
+                info: 'For ARM-based Linux distributions'
             },
             {
                 icon: '🗜️',
