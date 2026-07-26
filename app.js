@@ -182,17 +182,25 @@ async function fetchLatestRelease() {
         let debAssetArm64 = null;
         let zipAssetX64 = null;
         let zipAssetArm64 = null;
+        let flatpakAssetX64 = null;
+        let flatpakAssetArm64 = null;
         
         data.assets.forEach(asset => {
             if (asset.name.endsWith('.deb')) {
-                if (asset.name.includes('arm64')) {
+                if (asset.name.includes('arm64') || asset.name.includes('aarch64')) {
                     debAssetArm64 = asset;
                 } else {
                     debAssetX64 = asset;
                 }
+            } else if (asset.name.endsWith('.flatpak')) {
+                if (asset.name.includes('arm64') || asset.name.includes('aarch64')) {
+                    flatpakAssetArm64 = asset;
+                } else {
+                    flatpakAssetX64 = asset;
+                }
             } else if (asset.name.endsWith('.zip') && !asset.name.includes('source')) {
                 // Ignore general source zips, lookup for built binary
-                if (asset.name.includes('arm64')) {
+                if (asset.name.includes('arm64') || asset.name.includes('aarch64')) {
                     zipAssetArm64 = asset;
                 } else {
                     zipAssetX64 = asset;
@@ -202,6 +210,44 @@ async function fetchLatestRelease() {
         
         // Build downloads array
         const downloads = [];
+
+        if (flatpakAssetX64) {
+            const sizeMB = (flatpakAssetX64.size / (1024 * 1024)).toFixed(1);
+            downloads.push({
+                icon: '📦',
+                name: 'Flatpak Bundle (64-bit)',
+                format: 'FLATPAK (x86_64)',
+                url: flatpakAssetX64.browser_download_url,
+                info: `Size: ~${sizeMB} MB • Downloads: ${flatpakAssetX64.download_count}`
+            });
+        } else {
+            downloads.push({
+                icon: '📦',
+                name: 'Flatpak Bundle (64-bit)',
+                format: 'FLATPAK (x86_64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/ru.arabianq.pwsp-x86_64.flatpak`,
+                info: `Standalone Flatpak bundle`
+            });
+        }
+
+        if (flatpakAssetArm64) {
+            const sizeMB = (flatpakAssetArm64.size / (1024 * 1024)).toFixed(1);
+            downloads.push({
+                icon: '📦',
+                name: 'Flatpak Bundle (ARM)',
+                format: 'FLATPAK (aarch64)',
+                url: flatpakAssetArm64.browser_download_url,
+                info: `Size: ~${sizeMB} MB • Downloads: ${flatpakAssetArm64.download_count}`
+            });
+        } else {
+            downloads.push({
+                icon: '📦',
+                name: 'Flatpak Bundle (ARM)',
+                format: 'FLATPAK (aarch64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/ru.arabianq.pwsp-aarch64.flatpak`,
+                info: `Standalone ARM64 Flatpak bundle`
+            });
+        }
         
         if (debAssetX64) {
             const sizeMB = (debAssetX64.size / (1024 * 1024)).toFixed(1);
@@ -218,7 +264,7 @@ async function fetchLatestRelease() {
                 icon: '🐧',
                 name: 'Debian / Ubuntu Package',
                 format: 'DEB (64-bit)',
-                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp-gui_${version.replace('v', '')}-1_amd64.deb`,
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp_${version.replace('v', '')}-1_amd64.deb`,
                 info: `For Intel/AMD 64-bit systems`
             });
         }
@@ -237,7 +283,7 @@ async function fetchLatestRelease() {
                 icon: '🐧',
                 name: 'Debian / Ubuntu Package (ARM)',
                 format: 'DEB (ARM64)',
-                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp-gui_${version.replace('v', '')}-1_arm64.deb`,
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${version}/pwsp_${version.replace('v', '')}-1_arm64.deb`,
                 info: `For ARM 64-bit systems`
             });
         }
@@ -316,17 +362,31 @@ async function fetchLatestRelease() {
         
         const fallbackDownloads = [
             {
+                icon: '📦',
+                name: 'Flatpak Bundle (64-bit)',
+                format: 'FLATPAK (x86_64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/ru.arabianq.pwsp-x86_64.flatpak`,
+                info: 'Standalone Flatpak bundle'
+            },
+            {
+                icon: '📦',
+                name: 'Flatpak Bundle (ARM)',
+                format: 'FLATPAK (aarch64)',
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/ru.arabianq.pwsp-aarch64.flatpak`,
+                info: 'Standalone ARM64 Flatpak bundle'
+            },
+            {
                 icon: '🐧',
                 name: 'Debian / Ubuntu Package',
                 format: 'DEB (64-bit)',
-                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp-gui_${fallbackVersion.replace('v', '')}-1_amd64.deb`,
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp_${fallbackVersion.replace('v', '')}-1_amd64.deb`,
                 info: 'Install on Ubuntu/Debian/Mint'
             },
             {
                 icon: '🐧',
                 name: 'Debian / Ubuntu Package (ARM)',
                 format: 'DEB (ARM64)',
-                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp-gui_${fallbackVersion.replace('v', '')}-1_arm64.deb`,
+                url: `https://github.com/arabianq/pipewire-soundpad/releases/download/${fallbackVersion}/pwsp_${fallbackVersion.replace('v', '')}-1_arm64.deb`,
                 info: 'Install on ARM-based Ubuntu/Debian'
             },
             {

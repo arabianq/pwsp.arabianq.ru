@@ -416,6 +416,28 @@ section {
     pointer-events: none;
 }
 
+.screenshots-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.screenshots-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.sub-screenshot {
+    display: flex;
+}
+
+.sub-screenshot .screenshot-img {
+    height: 100%;
+    object-fit: cover;
+}
+
 /* Features Section Style */
 .features-grid {
     display: grid;
@@ -1018,6 +1040,10 @@ pre {
     }
 
     .arch-clients {
+        grid-template-columns: 1fr;
+    }
+    
+    .screenshots-subgrid {
         grid-template-columns: 1fr;
     }
     
